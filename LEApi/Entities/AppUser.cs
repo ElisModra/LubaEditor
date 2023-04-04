@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using System.ComponentModel.DataAnnotations;
+
 
 namespace LEApi.Entities
 {
@@ -9,11 +8,18 @@ namespace LEApi.Entities
     {
         public int Id { get; set; }
 
+        [Required]
         public string UserName { get; set; }
 
         public string FirstName { get; set; }   
 
         public string LastName { get; set; }    
+
+        [Required]
+        public byte[] PasswordHash { get; set; }
+
+        [Required]
+        public byte[] PasswordSalt { get; set; }
 
 
     }
