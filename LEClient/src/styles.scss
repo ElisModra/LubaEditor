@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+.right{
+  float: right;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.mr-20{
+  margin-right: 20px;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";

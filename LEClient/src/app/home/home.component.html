@@ -1,0 +1,19 @@
+<div class="container mt-10 main">
+  <div class="text-center">
+    <h1>LUBA Editor</h1>
+    <p class="lead">
+      Lorem Ipsum
+    </p>
+    <div class="text-center" *ngIf="!registerMode && !(accountService.currentUser$ | async)">
+      <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Register</button>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="registerMode && !(accountService.currentUser$ | async)">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-user-register (cancelRegister)="registerToggle()"></app-user-register>
+      </div>
+    </div>
+  </div>
+</div>

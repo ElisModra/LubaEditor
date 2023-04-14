@@ -1,9 +1,6 @@
 
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
-using System.Xml;
 using LEApi.Data;
 using LEApi.DTOs;
 using LEApi.Entities;
@@ -35,6 +32,8 @@ namespace LEApi.Controllers
             var user = new AppUser 
             {
                 UserName = registerDto.Username.ToLower(),
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key
             };
@@ -53,6 +52,7 @@ namespace LEApi.Controllers
 
         }
 
+        [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
