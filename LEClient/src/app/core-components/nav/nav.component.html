@@ -4,7 +4,7 @@
     <a class="navbar-brand" href="#">LUBA Editor</a>
 
     <div class="" id="navbarCollapse" >
-      <ul class="navbar-nav me-auto mb-2 mb-md-0"  *ngIf="accountService.currentUser$ | async">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="(isLoggedIn$ | async)">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
@@ -15,14 +15,14 @@
           <a class="nav-link disabled">Disabled</a>
         </li>
       </ul>
-      <form #loginForm="ngForm" class="d-flex right" (ngSubmit)="login()" autocomplete="off" *ngIf="!(accountService.currentUser$ | async)">
+      <form #loginForm="ngForm" class="d-flex right" (ngSubmit)="login()" autocomplete="off" *ngIf="(isLoggedOut$ | async)">
         <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username">
         <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password">
         <button class="btn btn-outline-success" type="submit">Login</button>
       </form>
 
     </div>
-    <div class="dropdown mr-20" dropdown *ngIf="accountService.currentUser$ | async">
+    <div class="dropdown mr-20" dropdown *ngIf="(isLoggedIn$ | async)">
       <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>Vitaj</a>
       <div class="dropdown-menu" *dropdownMenu="">
         <a class="dropdown-item" class="" (click)="logout()">Logout</a>

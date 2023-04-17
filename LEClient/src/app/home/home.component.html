@@ -4,12 +4,12 @@
     <p class="lead">
       Lorem Ipsum
     </p>
-    <div class="text-center" *ngIf="!registerMode && !(accountService.currentUser$ | async)">
+    <div class="text-center" *ngIf="!registerMode && (isLoggedOut$| async)">
       <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Register</button>
     </div>
   </div>
 
-  <div class="container" *ngIf="registerMode && !(accountService.currentUser$ | async)">
+  <div class="container" *ngIf="registerMode && (isLoggedOut$ | async)">
     <div class="row justify-content-center">
       <div class="col-4">
         <app-user-register (cancelRegister)="registerToggle()"></app-user-register>

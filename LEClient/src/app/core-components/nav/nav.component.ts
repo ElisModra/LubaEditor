@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { Observable, of, tap } from 'rxjs';
 import { LoginDto, User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
+import { isLoggedIn, isLoggedOut } from 'src/app/user/_state/user.selectors';
+import { UserActions } from 'src/app/user/_state/user.types';
+import { UserState } from 'src/app/user/reducers';
 
 @Component({
   selector: 'app-nav',
@@ -11,15 +15,32 @@ import { AccountService } from 'src/app/_services/account.service';
 export class NavComponent implements OnInit{
 
   model: LoginDto = {username: "", password: ""};
+  isLoggedIn$: Observable<boolean> = of(false);
+  isLoggedOut$: Observable<boolean> = of(true);
 
-  constructor(public accountService: AccountService) {
+  constructor(
+    public accountService: AccountService,
+    private store: Store<UserState>
+    ) {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn$ = this.store
+    .pipe(
+      select(isLoggedIn)
+    );
+
+    this.isLoggedOut$ = this.store
+    .pipe(
+      select(isLoggedOut)
+    );
   }
 
   login(){
     this.accountService.login(this.model)
+    .pipe(
+      tap( (data ) => { this.store.dispatch(UserActions.login({user: data}))})
+    )
     .subscribe({
       complete: () => {
         this.model.username = "";
@@ -29,7 +50,7 @@ export class NavComponent implements OnInit{
   }
 
   logout(){
-    this.accountService.logout();
+    this.store.dispatch(UserActions.logout());
   }
 
 }
