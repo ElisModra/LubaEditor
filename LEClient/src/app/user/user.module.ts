@@ -4,6 +4,8 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import * as fromUser from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './_state/user.effects';
 
 
 
@@ -14,7 +16,8 @@ import * as fromUser from './reducers';
   imports: [
     CommonModule,
     FormsModule,
-    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducers, { metaReducers: fromUser.metaReducers })
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.userReducers, { metaReducers: fromUser.metaReducers }),
+    EffectsModule.forFeature([UserEffects])
   ],
   exports:[
     RegisterComponent

@@ -7,6 +7,9 @@ import { isLoggedIn, isLoggedOut } from 'src/app/user/_state/user.selectors';
 import { UserActions } from 'src/app/user/_state/user.types';
 import { UserState } from 'src/app/user/reducers';
 import { ToastrService } from 'ngx-toastr';
+import { localHostAuthUser } from 'src/app/_utils/_variables';
+import { login } from 'src/app/user/_state/user.actions';
+import { getAccessToken } from 'src/app/_utils/auth.utils';
 
 @Component({
   selector: 'app-nav',
@@ -27,6 +30,12 @@ export class NavComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    const userProfile = getAccessToken();
+    if(userProfile){
+      this.store.dispatch(login({user: JSON.parse(userProfile)}))
+    }
+
     this.isLoggedIn$ = this.store
     .pipe(
       select(isLoggedIn)
