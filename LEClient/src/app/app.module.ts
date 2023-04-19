@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { UserModule } from './user/user.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     CoreComponentsModule,
     BsDropdownModule.forRoot(),
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass:'toast-bottom-right'
+    }),
     UserModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })

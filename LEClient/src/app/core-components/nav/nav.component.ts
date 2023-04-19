@@ -6,6 +6,7 @@ import { AccountService } from 'src/app/_services/account.service';
 import { isLoggedIn, isLoggedOut } from 'src/app/user/_state/user.selectors';
 import { UserActions } from 'src/app/user/_state/user.types';
 import { UserState } from 'src/app/user/reducers';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -20,7 +21,8 @@ export class NavComponent implements OnInit{
 
   constructor(
     public accountService: AccountService,
-    private store: Store<UserState>
+    private store: Store<UserState>,
+    private toastr: ToastrService
     ) {
   }
 
@@ -42,6 +44,9 @@ export class NavComponent implements OnInit{
       tap( (data ) => { this.store.dispatch(UserActions.login({user: data}))})
     )
     .subscribe({
+      error: (err) => {
+        this.toastr.error(err.error);
+      },
       complete: () => {
         this.model.username = "";
         this.model.password = "";
