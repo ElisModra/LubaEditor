@@ -3,22 +3,25 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="/" routerLink="active">LUBA Editor</a>
 
-    <div class="" id="navbarCollapse" >
-      <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="(isLoggedIn$ | async)">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/person/persons-card"  routerLinkActive="active" >Persons Card List</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
+
+      <ng-container *ngIf="(isLoggedIn$ | async)">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0" >
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/person" href="/person" routerLinkActive="active" >Persons Card List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" href="/">Test</a>
+          </li>
+        </ul>
+      </ng-container>
+
       <form #loginForm="ngForm" class="d-flex right" (ngSubmit)="login()" autocomplete="off" *ngIf="(isLoggedOut$ | async)">
         <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username">
         <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password" placeholder="Password">
         <button class="btn btn-success" type="submit">Login</button>
       </form>
 
-    </div>
+
     <div class="dropdown mr-20" dropdown *ngIf="(isLoggedIn$ | async)">
       <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>Vitaj</a>
       <div class="dropdown-menu" *dropdownMenu="">

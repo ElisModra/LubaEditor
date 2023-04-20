@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { RegisterUser } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 
@@ -14,17 +15,23 @@ export class RegisterComponent {
 
   model: RegisterUser = { username:"", firstName: "", lastName: "", password: "", passwordControl: "" };
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private toastr: ToastrService
+    ) {}
 
   register(){
     if(this.checkRegisterUser(this.model)){
       this.accountService.register(this.model)
         .subscribe({
           next: response => {
+            this.toastr.success("User's account for "+response.username+" was created.")
             console.log(response);
             this.cancel();
           },
-          error: err => {console.log(err)}
+          error: err => {
+            console.log(err)
+          }
         });
     }
   }
@@ -36,13 +43,13 @@ export class RegisterComponent {
   private checkRegisterUser(user: RegisterUser) : boolean{
     if(user){
 
-      if(user.firstName.length < 5 || user.lastName.length < 5 || user.username.length < 5 || user.password.length < 5 || user.passwordControl.length < 5){
-        console.log("Form is not filled out completely.");
+      if(user.firstName.length < 2 || user.lastName.length < 2 || user.username.length < 5 || user.password.length < 5 || user.passwordControl.length < 5){
+        this.toastr.error("Form is not filled out completely.");
         return false;
       }
 
       if(user.password !== user.passwordControl){
-        console.log("Passwords don't match.");
+        this.toastr.error("Passwords don't match.");
         return false;
       }
 
