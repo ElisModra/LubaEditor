@@ -53,9 +53,6 @@ export class NavComponent implements OnInit{
       tap( (data ) => { this.store.dispatch(UserActions.login({user: data}))})
     )
     .subscribe({
-      error: (err) => {
-        this.toastr.error(err.error);
-      },
       complete: () => {
         this.model.username = "";
         this.model.password = "";

@@ -2,6 +2,7 @@ using System.Text;
 using LEApi.Data;
 using LEApi.Extensions;
 using LEApi.Interfaces;
+using LEApi.Middleware;
 using LEApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
+
+if(builder.Environment.IsDevelopment()){
+    app.UseDeveloperExceptionPage();
+}
 
 // Configure the HTTP request pipeline.
 
