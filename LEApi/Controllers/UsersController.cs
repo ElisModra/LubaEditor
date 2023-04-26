@@ -1,37 +1,46 @@
 
-using System.Threading.Tasks;
-using LEApi.Data;
-using LEApi.Entities;
+
+using AutoMapper;
+using LEApi.DTOs;
+using LEApi.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace LEApi.Controllers
 {
     [Authorize]
     public class UsersController : BaseApiController
     {
+        private readonly IUserRepository _userRepository;
 
-        private readonly DataContext _context;
-        public UsersController(DataContext context)
+        private readonly IMapper _mapper;
+
+        public UsersController(IUserRepository userRepository, IMapper mapper)
         {
-            _context = context;
+            this._mapper = mapper;
+
+            this._userRepository = userRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<AppUserDto>>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _userRepository.GetUsersAsync();
 
-            return users;
+            var usersToReturn = _mapper.Map<IEnumerable<AppUserDto>>(users);
+
+            return Ok(usersToReturn);
+
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<AppUserDto>> GetUser(string username)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userRepository.GetUserByUsername(username);
+            var userToReturn = _mapper.Map<AppUserDto>(user);
 
-            return user;
+            return Ok(userToReturn);
         }
     }
 }

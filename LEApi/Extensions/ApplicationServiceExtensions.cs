@@ -1,5 +1,6 @@
 
 using LEApi.Data;
+using LEApi.Data.Repositories;
 using LEApi.Interfaces;
 using LEApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,11 @@ namespace LEApi.Extensions
             });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPersonsCardRepository, PersonsCardRepository>();
 
             return services;
         }

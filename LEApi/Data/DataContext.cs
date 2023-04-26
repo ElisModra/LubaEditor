@@ -12,6 +12,8 @@ namespace LEApi.Data
         }
 
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<PersonsCard> PersonsCards { get; set; }
         
     }
 }

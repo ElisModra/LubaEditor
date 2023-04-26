@@ -21,6 +21,7 @@ namespace LEApi.Entities
         [Required]
         public byte[] PasswordSalt { get; set; }
 
+        public DateTime LastActive { get; set; }
 
     }
 }
